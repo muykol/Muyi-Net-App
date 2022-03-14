@@ -6,7 +6,6 @@ on:
       - main
       - feauture
 
-
 jobs:
   build_test_publish:
 
@@ -19,6 +18,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - uses: actions/cache@v2
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
     - name: Install dependencies
       run: dotnet restore "./Muyi-Net-App"
     - name: Build code
